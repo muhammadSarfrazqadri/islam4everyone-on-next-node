@@ -1,0 +1,188 @@
+"use client";
+
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { PanelLeftOpen, PanelLeftClose, Video, PlayCircle, Search } from "lucide-react";
+
+// Sample Video Naats
+const videos = [
+  { id: 1, title: "Mustafa Jaane Rehmat", reciter: "Owais Raza Qadri", src: "/videos/1.mp4" },
+  { id: 2, title: "Faslon Ko Takalluf", reciter: "Qari Waheed Zafar", src: "/videos/2.mp4" },
+  { id: 3, title: "Illahi Teri Chokhat", reciter: "Junaid Jamshed", src: "/videos/3.mp4" },
+  { id: 4, title: "Tu Kuja Man Kuja", reciter: "Nusrat Fateh Ali Khan", src: "/videos/4.mp4" },
+  { id: 5, title: "Allah Hu Allah Hu", reciter: "Sami Yusuf", src: "/videos/5.mp4" },
+  { id: 6, title: "Madina Se Bulawa", reciter: "Siddiq Ismail", src: "/videos/6.mp4" },
+  { id: 7, title: "Tajdar-e-Haram", reciter: "Atif Aslam", src: "/videos/7.mp4" },
+  { id: 8, title: "Hasbi Rabbi", reciter: "Sami Yusuf", src: "/videos/8.mp4" },
+  { id: 9, title: "Mera Dil Badal De", reciter: "Junaid Jamshed", src: "/videos/9.mp4" },
+  { id: 10, title: "Ya Nabi Salam Alayka", reciter: "Maher Zain", src: "/videos/10.mp4" },
+  { id: 11, title: "Balaghal Ula Be Kamalihi", reciter: "Sabri Brothers", src: "/videos/11.mp4" },
+  { id: 12, title: "Zahe Muqaddar", reciter: "Qari Waheed Zafar", src: "/videos/12.mp4" },
+  { id: 13, title: "Main Tu Panjtan Ka Ghulam", reciter: "Owais Raza Qadri", src: "/videos/13.mp4" },
+  { id: 14, title: "Bhar Do Jholi", reciter: "Adnan Sami", src: "/videos/14.mp4" },
+  { id: 15, title: "Karam Mangta Hoon", reciter: "Alhaaj Khursheed Ahmed", src: "/videos/15.mp4" },
+];
+
+export default function VideoNaatPage() {
+  const [search, setSearch] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const cardRefs = useRef<Record<number, HTMLDivElement | null>>({});
+
+  const filtered = videos.filter((n) =>
+    n.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const scrollToVideo = (video: typeof videos[0]) => {
+    cardRefs.current[video.id]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setSidebarOpen(false); // mobile close
+  };
+
+  return (
+    <div className="flex min-h-screen bg-gray-50 dark:bg-black">
+      {/* Sidebar - Desktop: Fixed, Mobile: Slide-over */}
+      <aside className="hidden md:block w-72 h-screen sticky top-0 overflow-y-auto bg-white dark:bg-gray-900 border-r dark:border-gray-800 p-5 shadow-sm z-30">
+        <h2 className="text-xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Video List</h2>
+        <div className="space-y-3">
+          {filtered.map((n) => (
+            <div
+              key={n.id}
+              onClick={() => scrollToVideo(n)}
+              className="p-3 rounded-lg cursor-pointer bg-gray-50 hover:bg-indigo-50 dark:bg-gray-800 dark:hover:bg-gray-700 transition flex items-center gap-3 border border-transparent hover:border-indigo-200 dark:hover:border-gray-600"
+            >
+              <Video className="text-indigo-500 w-5 h-5 shrink-0" />
+              <div className="overflow-hidden">
+                <p className="font-semibold text-sm truncate">{n.title}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{n.reciter}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      {/* Mobile Sidebar Drawer */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSidebarOpen(false)}
+              className="fixed inset-0 bg-black z-40 md:hidden"
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 left-0 h-full w-72 bg-white dark:bg-gray-900 z-50 p-5 overflow-y-auto shadow-2xl md:hidden border-r dark:border-gray-800"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-indigo-600 dark:text-indigo-400">Video List</h2>
+                <button onClick={() => setSidebarOpen(false)}>
+                  <PanelLeftClose className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+                </button>
+              </div>
+              <div className="space-y-3">
+                {filtered.map((n) => (
+                  <div
+                    key={n.id}
+                    onClick={() => scrollToVideo(n)}
+                    className="p-3 rounded-lg cursor-pointer bg-gray-100 dark:bg-gray-800 flex items-center gap-3"
+                  >
+                    <Video className="text-indigo-500 w-5 h-5" />
+                    <div>
+                      <p className="font-semibold text-sm">{n.title}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{n.reciter}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Toggle Button */}
+      <div className="fixed left-4 bottom-6 z-40 md:hidden">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-colors"
+        >
+          <PanelLeftOpen className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Main Content */}
+      <main className="flex-1 w-full px-4 py-8 md:py-12">
+        <div className="max-w-3xl mx-auto">
+          {/* Page Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-10"
+          >
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              Video Naats
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">Watch beautiful recitations</p>
+          </motion.div>
+
+          {/* Search */}
+          <div className="flex justify-center mb-10">
+            <div className="relative w-full max-w-lg">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search Videos..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm"
+              />
+            </div>
+          </div>
+
+          {/* Video Cards */}
+          <div className="space-y-8">
+            {filtered.map((video, index) => (
+              <motion.div
+                key={video.id}
+                ref={(el) => { cardRefs.current[video.id] = el; }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="p-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-indigo-100 dark:bg-indigo-900/30 p-3 rounded-full">
+                      <PlayCircle className="text-indigo-600 dark:text-indigo-400 w-8 h-8" />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-bold text-gray-900 dark:text-white">{video.title}</h2>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{video.reciter}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Video Player */}
+                <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden">
+                    <video controls className="w-full h-full">
+                        <source src={video.src} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-gray-500 dark:text-gray-400 text-lg">No videos found matching your search.</p>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
