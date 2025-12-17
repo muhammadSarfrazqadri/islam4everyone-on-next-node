@@ -121,34 +121,122 @@ export default function ContactPage() {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Send a Message</h2>
             </div>
             
-            <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-                        <div className="relative">
-                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            <input type="text" placeholder="Your Name" className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                        <div className="relative">
-                            <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            <input type="email" placeholder="your@email.com" className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
-                        </div>
-                    </div>
+            <form 
+              onSubmit={async (e) => {
+              e.preventDefault();
+              const form = e.currentTarget;
+              const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+              const modal = document.getElementById('success-modal');
+              const originalText = btn.innerText;
+              
+              btn.disabled = true;
+              btn.innerText = "Sending...";
+
+              try {
+                const formData = new FormData(form);
+                const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+                });
+
+                if (response.ok) {
+                form.reset();
+                btn.innerText = "Message Sent!";
+                
+                // Show Success Modal
+                if (modal) {
+                  modal.classList.remove('hidden');
+                  modal.classList.add('flex');
+                }
+
+                setTimeout(() => {
+                  btn.disabled = false;
+                  btn.innerText = originalText;
+                }, 3000);
+                } else {
+                throw new Error("Failed");
+                }
+              } catch (err) {
+                btn.innerText = "Error Sending";
+                setTimeout(() => {
+                btn.disabled = false;
+                btn.innerText = originalText;
+                }, 3000);
+              }
+              }}
+              className="space-y-4 relative"
+            >
+              {/* Web3Forms Hidden Inputs */}
+              <input type="hidden" name="access_key" value="0e974f3a-0960-46c4-877d-1837eb217edc" />
+              <input type="hidden" name="from_name" value="Islam4Everyone Website" />
+              <input type="hidden" name="replyto" value="contact@islam4everyone.com" />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input type="text" id="name" name="name" required placeholder="Your Name" className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
                 </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
-                    <input type="text" placeholder="How can we help?" className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                <div className="relative">
+                <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input type="email" id="email" name="email" required placeholder="your@email.com" className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
                 </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
-                    <textarea rows={5} placeholder="Write your message here..." className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none"></textarea>
+              </div>
+              </div>
+              <div className="space-y-2">
+              <label htmlFor="subject" className="text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
+              <input type="text" id="subject" name="subject" placeholder="How can we help?" className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
+              </div>
+              <div className="space-y-2">
+              <label htmlFor="message" className="text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
+              <textarea 
+                id="message" 
+                name="message" 
+                required 
+                rows={5} 
+                placeholder="Write your message here..." 
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none"
+                onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  e.currentTarget.form?.requestSubmit();
+                }
+                }}
+              ></textarea>
+              </div>
+              <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition-colors">
+              Send Message
+              </button>
+
+              {/* Success Popup Modal */}
+              <div id="success-modal" className="hidden fixed inset-0 z-[60] items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-sm w-full shadow-2xl border border-gray-100 dark:border-gray-700 text-center relative animate-in fade-in zoom-in duration-200">
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Send className="w-8 h-8 text-green-600 dark:text-green-400" />
                 </div>
-                <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition-colors">
-                    Send Message
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Message Sent!</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm">
+                Thank you for reaching out. We have received your message and will get back to you shortly.
+                </p>
+                <button 
+                type="button"
+                onClick={() => {
+                  const modal = document.getElementById('success-modal');
+                  if (modal) {
+                  modal.classList.add('hidden');
+                  modal.classList.remove('flex');
+                  }
+                }}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition-colors"
+                >
+                Close
                 </button>
+              </div>
+              </div>
             </form>
           </motion.div>
 
@@ -167,8 +255,8 @@ export default function ContactPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
                     { icon: Mail, title: "Email", value: "contact@islam4everyone.com", color: "text-blue-500" },
-                    { icon: Phone, title: "Phone", value: "+1 (555) 123-4567", color: "text-green-500" },
-                    { icon: MapPin, title: "Location", value: "New York, USA", color: "text-red-500" },
+                    { icon: Phone, title: "Phone", value: "+92 319 8370838", color: "text-green-500" },
+                    { icon: MapPin, title: "Location", value: "Karachi, Pakistan", color: "text-red-500" },
                 ].map((item, i) => (
                     <div key={i} className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm text-center">
                         <div className={`w-12 h-12 mx-auto mb-4 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center ${item.color}`}>
@@ -194,11 +282,23 @@ export default function ContactPage() {
                 <Globe className="text-indigo-600" /> Social Media
             </h2>
             <div className="flex flex-wrap gap-4">
-                {['Facebook', 'Twitter', 'Instagram', 'YouTube', 'LinkedIn'].map((social) => (
-                    <button key={social} className="px-6 py-3 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-500 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all font-medium shadow-sm">
-                        {social}
-                    </button>
-                ))}
+              {[
+                { name: 'Facebook', link: 'https://facebook.com/' },
+                { name: 'WhatsApp', link: 'https://wa.me/923198370838' },
+                // { name: 'Instagram', link: 'https://instagram.com/' },
+                { name: 'YouTube', link: 'https://youtube.com/' },
+                { name: 'LinkedIn', link: 'https://linkedin.com/' }
+              ].map((social) => (
+                <a 
+                  key={social.name} 
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-500 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all font-medium shadow-sm"
+                >
+                  {social.name}
+                </a>
+              ))}
             </div>
           </motion.div>
 

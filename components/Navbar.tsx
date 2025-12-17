@@ -27,7 +27,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex items-center gap-8 text-white font-medium dark:text-gray-200 text-lg">
+                <div className="hidden lg:flex items-center gap-8 text-white font-medium dark:text-gray-200 text-lg">
                     <HoverLink href="/" icon={<Home size={20} />}>Home</HoverLink>
                     <HoverLink href="/names" icon={<Info size={20} />}>Names</HoverLink>
 
@@ -105,8 +105,8 @@ export default function Navbar() {
                 </div>
 
                 {/* Mobile Toggle */}
-                <button className="text-white md:hidden z-50 relative" onClick={() => setOpen(!open)}>
-                    {open ? <X size={34} /> : <Menu size={28} />}
+                <button className="text-white lg:hidden z-50 relative" onClick={() => setOpen(!open)}>
+                    {open ? <X size={34} className="text-black" /> : <Menu size={28}  />}
                 </button>
             </div>
 
@@ -118,7 +118,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: "100%" }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="fixed inset-0 bg-white dark:bg-gray-900 z-40 flex flex-col pt-24 px-6 overflow-y-auto h-screen md:hidden"
+                        className="fixed inset-0 bg-white dark:bg-gray-900 z-40 flex flex-col pt-24 px-6 overflow-y-auto h-screen lg:hidden"
                     >
                         <div className="flex flex-col space-y-6 text-lg font-medium text-gray-800 dark:text-gray-200 pb-10">
                             

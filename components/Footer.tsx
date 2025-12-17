@@ -26,7 +26,7 @@ export default function Footer() {
 
                 </Link>
           <p className="text-gray-200 leading-relaxed">
-            Your trusted Islamic knowledge source — Naats, Books, Blogs, and more.
+            Your trusted Islamic knowledge source — Names, Naats, Books, Blogs, and more.
           </p>
 
           {/* Social Links */}
@@ -51,7 +51,7 @@ export default function Footer() {
           <FooterLink href="/books">Books</FooterLink>
           <FooterLink href="/blogs">Blogs</FooterLink>
           <FooterLink href="/names">Names</FooterLink>
-          <FooterLink href="/more">More</FooterLink>
+          <FooterLink href="/about">About</FooterLink>
         </div>
 
         {/* Contact Info */}

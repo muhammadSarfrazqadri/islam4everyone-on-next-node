@@ -82,10 +82,10 @@ export default function Home() {
             <span className="inline-block py-1 px-4 rounded-full text-white bg-white/10 backdrop-blur-md border border-white/20 text-indigo-200 text-sm font-medium mb-6">
               Welcome to Islam4Everyone
             </span>
-            <h1 className="text-5xl md:text-7xl text-white font-bold leading-tight mb-4 min-h-40 md:min-h-auto">
+            <h1 className="text-5xl sm:text-5xl md:text-7xl text-white font-bold leading-tight mb-4 min-h-40 md:min-h-auto">
               Your Source for <br />
               <span
-                className="text-transparent bg-clip-text bg-linear-to-r from-indigo-100 to-purple-100 inline-block min-h-[55px] md:min-h-[80px]"
+                className="text-transparent text-4xl sm:text-5xl md:text-7xl bg-clip-text bg-linear-to-r from-indigo-100 to-purple-100 inline-block min-h-[55px] md:min-h-[50px]"
               >
                 <Typewriter text={heroSlides[currentSlide].title} />
               </span>

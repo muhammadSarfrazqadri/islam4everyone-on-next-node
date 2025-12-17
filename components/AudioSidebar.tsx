@@ -3,16 +3,45 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { PanelLeftOpen, PanelLeftClose, Music, PlayCircle, Search } from "lucide-react";
-import { naats } from "@/src/app/(public)/naats/audio/page";
-// Sample Naats
+// import { naats } from "@/src/app/(public)/naats/data";
+
 // const naats = [
-//   { id: 1, title: "Mustafa Jaane Rehmat", reciter: "Owais Raza", src: "/naats/1.mp3" },
-//   { id: 2, title: "Faslon Ko Takalluf", reciter: "Hafiz Ahmed", src: "/naats/2.mp3" },
-//   { id: 3, title: "Illahi Teri Chokhat", reciter: "Khursheed Ahmed", src: "/naats/3.mp3" },
-//   { id: 4, title: "To Kuja Man Kuja", reciter: "Owais Raza", src: "/naats/1.mp3" },
-//   { id: 5, title: "Allah Ho Allah Ho", reciter: "Hafiz Ahmed", src: "/naats/2.mp3" },
-//   { id: 6, title: "Madina se Bulawa Arha he", reciter: "Khursheed Ahmed", src: "/naats/3.mp3" },
+//   {
+//     id: 1,
+//     slug: "ya-nabi-salam-alaika",
+//     title: "یا نبی سلام علیک",
+//     poet: "حضرت امام بوصیری",
+//     content: `
+// یا نبی سلام علیک
+// یا رسول سلام علیک
+// یا حبیب سلام علیک
+// صلوات اللہ علیک
+//     `,
+//   },
+
+//   {
+//     id: 2,
+//     slug: "tala-al-badru-alayna",
+//     title: "طلع البدر علینا",
+//     poet: "مدینہ کے صحابہ کرام",
+//     content: `
+// طلع البدر علینا
+// من ثنیات الوداع
+// وجـب الشكر علينـا
+// ما دعـا لله داع
+//     `,
+//   },
 // ];
+
+// Sample Naats
+const naats = [
+  { id: 1, title: "Mustafa Jaane Rehmat", reciter: "Owais Raza", src: "/naats/1.mp3" },
+  { id: 2, title: "Faslon Ko Takalluf", reciter: "Hafiz Ahmed", src: "/naats/2.mp3" },
+  { id: 3, title: "Illahi Teri Chokhat", reciter: "Khursheed Ahmed", src: "/naats/3.mp3" },
+  { id: 4, title: "To Kuja Man Kuja", reciter: "Owais Raza", src: "/naats/1.mp3" },
+  { id: 5, title: "Allah Ho Allah Ho", reciter: "Hafiz Ahmed", src: "/naats/2.mp3" },
+  { id: 6, title: "Madina se Bulawa Arha he", reciter: "Khursheed Ahmed", src: "/naats/3.mp3" },
+];
 
 export default function AudioNaatPage() {
   const [search, setSearch] = useState("");
@@ -23,7 +52,7 @@ export default function AudioNaatPage() {
     n.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  const scrollToNaat = (naat) => {
+  const scrollToNaat = (naat: { id: number }) => {
     cardRefs.current[naat.id]?.scrollIntoView({ behavior: "smooth", block: "center" });
     setSidebarOpen(false); // close sidebar on mobile after click
   };
@@ -110,7 +139,7 @@ export default function AudioNaatPage() {
           {filtered.map((naat) => (
             <motion.div
               key={naat.id}
-              ref={(el) => (cardRefs.current[naat.id] = el)}
+              ref={(el) => {cardRefs.current[naat.id] = el}}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="p-5 rounded-xl border bg-white dark:bg-gray-900 dark:border-gray-700 shadow-sm"

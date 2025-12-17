@@ -4,14 +4,14 @@ import { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import AlphabetFilter from "@/components/AlphabetFilter";
 import ListCard from "@/components/ListCard";
-import { allNaats } from "../data";
+import { naats } from "../data";
 import AnimatedHeading from "@/components/AnimatedHeading";
 
 export default function WrittenNaatsPage() {
   const [query, setQuery] = useState("");
   const [selectedAlpha, setSelectedAlpha] = useState("");
 
-  const filtered = allNaats.filter((n) => {
+  const filtered = naats.filter((n) => {
     const matchQuery =
       n.title.toLowerCase().includes(query.toLowerCase()) ||
       n.poet.toLowerCase().includes(query.toLowerCase());

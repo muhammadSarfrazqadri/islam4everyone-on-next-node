@@ -1,4 +1,4 @@
-export const allNaats = [
+export const naats = [
   {
     slug: "ya-nabi-salam-alaika",
     title: "یا نبی سلام علیک",

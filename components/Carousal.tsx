@@ -23,7 +23,7 @@ export function CarouselPlugin() {
 
     const plugin = React.useRef(
         Autoplay({
-            delay: 1000,
+            delay: 2000,
             stopOnInteraction: carousel,
         })
     )
@@ -58,14 +58,15 @@ export function CarouselPlugin() {
                     <CarouselItem key={index}>
                         <div className="p-1">
                             <Card className="group relative overflow-hidden border-0 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-950">
-                                <CardContent className="flex flex-col items-center p-0">
-                                    <div className="relative h-56 w-full overflow-hidden bg-muted">
+                                <CardContent className="flex flex-col items-center rounded-2xl">
+                                    <div className="relative h-90 w-full overflow-hidden bg-muted rounded-2xl">
                                         {/* Gradient Overlay */}
-                                        <div className="absolute inset-0 z-10 bg-linear-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                                        <div className="absolute inset-0 z-10 bg-linear-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-2xl" />
                                         
                                         {/* Replace with actual Image component */}
-                                        <div className="flex h-full w-full items-center justify-center object-scale-down bg-slate-100 text-slate-400 transition-transform duration-500 group-hover:scale-105 dark:bg-slate-800">
-                                            <Image src={teacher.imageLink} alt={teacher.name} layout="fill" objectFit="cover" />
+                                            <Image className="rounded-2xl" src={teacher.imageLink} alt={teacher.name} layout="fill" objectFit="cover" />
+                                        <div className="flex h-full w-full items-center justify-center object-scale-down bg-slate-100 text-slate-400 transition-transform duration-500 group-hover:scale-105 dark:bg-slate-800 ">
+                                            <Image className="rounded-2xl m-0" src={teacher.imageLink} alt={teacher.name} layout="fill" objectFit="cover" />
                                         </div>
                                     </div>
                                     
