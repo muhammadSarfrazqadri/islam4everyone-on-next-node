@@ -6,6 +6,7 @@ import { Search, BookOpen, Music, Video, GraduationCap, ArrowRight, Star, Heart,
 import { useState, useEffect } from "react";
 import { Carousel } from "@/components/ui/carousel";
 import { CarouselPlugin } from "@/components/Carousal";
+import PrayerTimes from "@/components/PrayerTimesUi";
 
 const heroSlides = [
   {
@@ -254,7 +255,7 @@ export default function Home() {
       <section className="py-16 px-4 bg-gray-50 dark:bg-black">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Prayer Times */}
-          <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
+          {/* <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <Clock className="text-indigo-600 dark:text-indigo-400 w-6 h-6" />
@@ -276,7 +277,8 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
+                  <PrayerTimes />
 
           {/* Islamic Calendar */}
           <div className="bg-linear-to-br from-indigo-600 to-purple-700 p-8 rounded-2xl text-white shadow-lg">
@@ -302,6 +304,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* Online Tutor Section */}
       <section className="py-16 px-4 bg-indigo-900 text-white relative overflow-hidden">

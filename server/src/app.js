@@ -1,30 +1,26 @@
-const express = require('express');
-const connectDB = require('./config/database');
-require('dotenv').config();
-
-const app = express();
-const port = process.env.PORT || 3000;
+const express = require('express')
+const connectDB = require('./config/database')
 
 
+const app = express()
 
-console.log('Starting application...');
+
+app.use('/', (req, res) => {
+    res.send("This is / route")
+})
+
 connectDB().then(() => {
+    console.log("Database connected, starting server...")
 
-  console.log('Connected to MongoDB');
-  
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-
-}).catch((err) => {
-  console.error('Error connecting to MongoDB:', err);
-});
-
-
-
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+    app.listen(3001, () => {
+        console.log("Server is running on port 3001")
+    })
+    
+})
+.catch((err) => {
+    console.error("Database connection failed:", err)
+    process.exit(1)
+})
 
 
 module.exports = app;
